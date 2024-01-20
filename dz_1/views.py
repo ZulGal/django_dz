@@ -1,6 +1,8 @@
 from django.shortcuts import render
+from dz_1.models import User, Product,Order
 import logging
 from django.http import HttpResponse
+import random
 
 logger = logging.getLogger(__name__)
 def index (request):
@@ -24,5 +26,11 @@ def about (request):
     """
     return HttpResponse(html)
 
+def users_view(request):
+    users = User.objects.all()
+    res_str = '<br>'.join([str(user) for user in users])
+    return HttpResponse(res_str)
 
-# Create your views here.
+
+
+
