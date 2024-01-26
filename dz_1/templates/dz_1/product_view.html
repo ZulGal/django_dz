@@ -1,0 +1,16 @@
+{% extends 'dz_1/base.html' %}
+
+{% block title %} Товары клиента {{user}} {% endblock %}
+
+{% block content %}
+    <h2>Товары клиента {{user}}</h2>
+
+    <table>
+        {% for key, item in dict_products.items %}
+            <tr>
+                <td>Товар: {{ key }}</td>
+                <td>Время заказа: {{ item }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

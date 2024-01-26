@@ -15,15 +15,13 @@ class Command(BaseCommand):
         users = User.objects.all()
         product_all = Product.objects.all()
         for user in users:
-            for i in range(count):
-                product = random.choice(product_all)
-                print(f'user= {user},product={product}, total_price={product.price}')
-
-                order = Order(
-                    customer = user,
-                    # Direct assignment to the forward side of a many-to-many set is prohibited
-                    products = product,
-                    total_price = product.price,
-                )
-                self.stdout.write(self.style.SUCCESS(f'Created {order}'))
+            for j in range(5):
+                order = Order(customer=user, total_price=10)
                 order.save()
+                self.stdout.write(self.style.SUCCESS(f'Created {order}'))
+                for i in range(2):
+                    product = random.choice(product_all)
+                    # print(f'user= {user},product={product}')
+                    order.products.add(product)
+
+
