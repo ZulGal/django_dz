@@ -4,6 +4,9 @@ import logging
 from django.http import HttpResponse
 import numpy as np
 from  datetime import timedelta, datetime, timezone
+from .forms import ProductUpdateForm
+from django.core.files.storage import FileSystemStorage
+from .forms import ProductUploadImageForm
 
 logger = logging.getLogger(__name__)
 def index (request):
@@ -69,5 +72,37 @@ def product_view(request,user_id,days):
 
     context = {'user': user, 'dict_products':sorted_dict}
     return render (request,template_name='dz_1/product_view.html', context=context)
+
+def product_update(request,product_id):
+    message=''
+    product = Product.objects.get(id=product_id)
+    if request.method == 'POST':
+        form = ProductUpdateForm(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            message = 'Товар сохранён'
+        else:
+            message = 'Некорректные данные'
+    else:
+        form = ProductUpdateForm(instance=product)
+    return render(request, 'dz_1/product_form.html', {'form':form, 'message': message})
+
+
+def product_upload_image(request,product_id):
+    message = ''
+    product = Product.objects.get(id=product_id)
+    if request.method == 'POST':
+        form = ProductUploadImageForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            image = form.cleaned_data['image']
+            fs = FileSystemStorage()
+            fs.save(image.name, image)
+            message = 'Фото загружено'
+        else:
+            message = 'Некорректные данные'
+    else:
+        form = ProductUploadImageForm(instance=product)
+    return render(request, 'dz_1/product_upload_image.html', {'form': form, 'message': message})
+
 
 
