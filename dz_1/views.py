@@ -3,7 +3,7 @@ from dz_1.models import User, Product,Order
 import logging
 from django.http import HttpResponse
 import numpy as np
-from  datetime import timedelta, datetime, timezone
+from datetime import timedelta, date
 from .forms import ProductUpdateForm
 from django.core.files.storage import FileSystemStorage
 from .forms import ProductUploadImageForm
@@ -61,8 +61,8 @@ def product_view(request,user_id,days):
         products=Product.objects.filter(order=order)
         for product in products:
             if  not product in dict_products:
-                delta = datetime.now(timezone.utc) - order.date_ordered
-                if delta.days <= days:
+                # print(f'{date.today()},{timedelta(days=days)} {order.date_ordered.date()}')
+                if order.date_ordered.date() > date.today()- timedelta(days=days):
                     dict_products[product] = order.date_ordered
 
     keys = list(dict_products.keys())
