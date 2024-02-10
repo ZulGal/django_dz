@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'django_dz.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ZulGal$default>',
+        'NAME': 'ZulGal$default',
         'USER': 'ZulGal',
         'PASSWORD': os.getenv('MYSQL_PASSWORD'),
         'HOST': 'ZulGal.mysql.pythonanywhere-services.com',
